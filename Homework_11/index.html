@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <title>Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  </head>
+  <body>
+    <script>
+      let px = 240;
+      let py = 240;
+      let pSize = 50;
+      let pSpeed = 3;
+
+      let o1x = 100;
+      let o1y = 100;
+      let o1spdX = 2;
+      let o1spdY = 1.5;
+
+      let o2x = 300;
+      let o2y = 200;
+      let o2spdX = -1.5;
+      let o2spdY = 2.2;
+
+      let o3x = 200;
+      let o3y = 350;
+      let o3spdX = 1.8;
+      let o3spdY = -1.2;
+
+      let clickX = -999;
+      let clickY = -999;
+      let clicked = false;
+
+      let exitX = 450;
+      let exitY = 450;
+      let exitSize = 55;
+
+      let gameWon = false;
+
+      function setup() {
+        createCanvas(500, 500);
+      }
+
+      function draw() {
+        background(30);
+
+        o1x += o1spdX;
+        o1y += o1spdY;
+
+        if (o1x > 500) { o1x = 0; }
+        else if (o1x < 0) { o1x = 500; }
+
+        if (o1y > 500) { o1y = 0; }
+        else if (o1y < 0) { o1y = 500; }
+
+        o2x += o2spdX;
+        o2y += o2spdY;
+
+        if (o2x > 500) { o2x = 0; }
+        else if (o2x < 0) { o2x = 500; }
+
+        if (o2y > 500) { o2y = 0; }
+        else if (o2y < 0) { o2y = 500; }
+
+        o3x += o3spdX;
+        o3y += o3spdY;
+
+        if (o3x > 500) { o3x = 0; }
+        else if (o3x < 0) { o3x = 500; }
+
+        if (o3y > 500) { o3y = 0; }
+        else if (o3y < 0) { o3y = 500; }
+
+        if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) { px -= pSpeed; }
+        else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) { px += pSpeed; }
+
+        if (keyIsDown(UP_ARROW) || keyIsDown(87)) { py -= pSpeed; }
+        else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) { py += pSpeed; }
+
+        px = constrain(px, 0, 500);
+        py = constrain(py, 0, 500);
+
+        if (px > exitX - exitSize && px < exitX + exitSize &&
+            py > exitY - exitSize && py < exitY + exitSize) {
+          gameWon = true;
+        }
+
+        fill(0, 255, 100);
+        noStroke();
+        rect(exitX - exitSize / 2, exitY - exitSize / 2, exitSize, exitSize, 6);
+        fill(255);
+        textSize(12);
+        textAlign(CENTER);
+        text("EXIT", exitX, exitY + 4);
+
+        fill(220, 60, 60);
+        rect(o1x - 35, o1y - 35, 70, 70);
+
+        fill(60, 120, 220);
+        circle(o2x, o2y, 55);
+
+        fill(230, 140, 30);
+        triangle(
+          o3x, o3y - 45,
+          o3x - 40, o3y + 30,
+          o3x + 40, o3y + 30
+        );
+
+        if (clicked) {
+          fill(180, 0, 220);
+          rect(clickX - 30, clickY - 30, 60, 60);
+        }
+
+        fill(0, 200, 80);
+        rect(px - pSize / 2, py - pSize / 2, pSize, pSize);
+
+        if (gameWon) {
+          fill(0, 0, 0, 160);
+          rect(0, 0, 500, 500);
+          fill(0, 255, 100);
+          textSize(48);
+          textAlign(CENTER);
+          text("You Win!", 250, 220);
+          fill(255);
+          textSize(18);
+          text("You made it to the exit!", 250, 270);
+          text("Refresh to play again", 250, 300);
+        }
+      }
+
+      function mouseClicked() {
+        if (!gameWon) {
+          clickX = mouseX;
+          clickY = mouseY;
+          clicked = true;
+        }
+      }
+
+    </script>
+  </body>
+</html>
